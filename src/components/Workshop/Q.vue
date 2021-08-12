@@ -1,0 +1,145 @@
+<template>
+<div class="boby">
+    <el-container>
+  <el-aside >
+       <div class="sidebar">
+         <!-- <el-menu
+                class="sidebar-el-menu"
+                :default-active="$route.path"
+                :collapse="collapse"
+                background-color="#324157"
+                text-color="#bfcbd9"
+                active-text-color="#bfcbd9"
+                unique-opened
+                router>
+        <el-menu-item index="/mains">
+           <i class="el-icon-menu"></i>
+        <span slot="title">首页</span>
+      </el-menu-item>
+       <el-menu-item index="/factoryzj">
+           <i class="el-icon-menu"></i>
+        <span slot="title">分厂专检</span>
+      </el-menu-item>
+       <el-menu-item index="/workzj">
+           <i class="el-icon-menu"></i>
+        <span slot="title">车间专检</span>
+      </el-menu-item>
+       <el-menu-item index="/workcj">
+           <i class="el-icon-menu"></i>
+        <span slot="title">车间抽检</span>
+      </el-menu-item>
+       <el-menu-item index="/checkout">
+           <i class="el-icon-menu"></i>
+        <span slot="title">组--检验</span>
+      </el-menu-item>
+       <el-menu-item index="/intensity">
+           <i class="el-icon-menu"></i>
+        <span slot="title">组--密集度</span>
+      </el-menu-item>
+      <el-menu-item index="/broken">
+           <i class="el-icon-menu"></i>
+        <span slot="title">组--飞行破裂</span>
+      </el-menu-item>
+      <el-menu-item index="/certificateprint">
+           <i class="el-icon-menu"></i>
+        <span slot="title">合格证打印</span>
+      </el-menu-item>
+       <el-menu-item index="/disqualificat">
+           <i class="el-icon-menu"></i>
+        <span slot="title">不合格审理</span>
+      </el-menu-item>
+      <el-menu-item index="/fxdefinition">
+           <i class="el-icon-menu"></i>
+        <span slot="title">返工返修定义</span>
+      </el-menu-item>
+      <el-menu-item index="/reworks">
+           <i class="el-icon-menu"></i>
+        <span slot="title">返工返修确认</span>
+      </el-menu-item>
+       <el-menu-item index="/djprint">
+           <i class="el-icon-menu"></i>
+        <span slot="title">不合格单据打印</span>
+      </el-menu-item>
+    </el-menu> -->
+    <el-menu
+                class="sidebar-el-menu"
+                :default-active="$route.path"
+                :collapse="collapse"
+                background-color="#324157"
+                text-color="#bfcbd9"
+                active-text-color="#bfcbd9"
+                :unique-opened="true"
+                router>
+                <el-menu-item index="/mains">
+                   <i class="el-icon-menu"></i>
+                   <span slot="title">首页</span>
+                </el-menu-item>
+          <template v-for="item in items">
+                        <template v-for="subItem in item.children">
+                            <el-menu-item
+                                    :index="subItem.value"
+                                    :key="subItem.id"
+                            > <i :class="item.icon"></i>{{ subItem.label }}</el-menu-item>
+                        </template>
+            </template>
+        </el-menu>
+    </div>
+    </el-aside>
+  <el-main><router-view></router-view></el-main>
+</el-container>
+</div>
+</template>
+<script>
+import { getData } from '../../api/index'
+export default {
+  data () {
+    return {
+      collapse: false,
+      items: []
+    }
+  },
+  computed: {
+  },
+  created () {
+    this.getMenus()
+  },
+  methods: {
+    async getMenus () {
+      const res = await getData('/menu/dule')
+      if (res.code === 200) {
+        this.items = res.data
+      }
+    }
+  }
+}
+</script>
+
+<style lang="less" scoped>
+    .sidebar {
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        overflow-y: scroll;
+    }
+    .sidebar::-webkit-scrollbar {
+        width: 0;
+    }
+    .sidebar-el-menu:not(.el-menu--collapse) {
+        width: 280px;
+    }
+    .sidebar > ul {
+        height: 100%;
+    }
+.el-menu-item.is-active {
+  background-color:#009688 !important;
+}
+.el-menu-item-group.is-active{
+     background-color:#009688 !important;
+}
+.boby{
+       background-color: #f0f0f0;
+       height: 750px;
+}
+</style>
